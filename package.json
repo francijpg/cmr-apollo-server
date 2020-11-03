@@ -1,0 +1,28 @@
+{
+  "name": "cmrgraphql",
+  "version": "1.0.0",
+  "description": "cmr-graphql",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francijpg/CMRGraphQL.git"
+  },
+  "author": "FranciscoPG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francijpg/CMRGraphQL/issues"
+  },
+  "homepage": "https://github.com/francijpg/CMRGraphQL#readme",
+  "dependencies": {
+    "apollo-server": "^2.19.0",
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.10.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
