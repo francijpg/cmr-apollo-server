@@ -79,11 +79,6 @@ const resolvers = {
         console.log(error);
       }
     },
-    obtenerPedidosEstado: async (_, { estado }, ctx) => {
-      const pedidos = await Pedido.find({ vendedor: ctx.usuario.id, estado });
-
-      return pedidos;
-    },
     obtenerPedidosVendedor: async (_, {}, ctx) => {
       try {
         const pedidos = await Pedido.find({
@@ -113,6 +108,38 @@ const resolvers = {
 
       // retornar el resultado
       return pedido;
+    },
+    obtenerPedidosEstado: async (_, { estado }, ctx) => {
+      const pedidos = await Pedido.find({ vendedor: ctx.usuario.id, estado });
+
+      return pedidos;
+    },
+    mejoresClientes: async () => {
+      const clientes = await Pedido.aggregate([
+        { $match: { estado: "COMPLETADO" } },
+        {
+          $group: { // similar to group by in SQL
+            _id: "$cliente",
+            total: { $sum: "$total" },
+          },
+        },
+        {
+          $lookup: { // similar to join in SQL
+            from: "clientes",
+            localField: "_id",
+            foreignField: "_id",
+            as: "cliente",
+          },
+        },
+        {
+          $limit: 10, // similar to max/top in SQL
+        },
+        {
+          $sort: { total: -1 }, // similar to order by in SQL
+        },
+      ]);
+
+      return clientes;
     },
   },
   Mutation: {
