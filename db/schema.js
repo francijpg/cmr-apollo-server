@@ -49,6 +49,16 @@ const typeDefs = gql`
     precio: Float
   }
 
+  type TopCliente {
+    total: Float
+    cliente: [Cliente]
+  }
+
+  type TopVendedor {
+    total: Float
+    vendedor: [Usuario]
+  }
+
   input UsuarioInput {
     nombre: String!
     apellido: String!
@@ -95,7 +105,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    # Usuarios
+    # Usuarios -> obtenerUsuario: Usuario
     obtenerUsuario(token: String!): Usuario
 
     # Productos
@@ -106,12 +116,15 @@ const typeDefs = gql`
     obtenerClientes: [Cliente]
     obtenerClientesVendedor: [Cliente]
     obtenerCliente(id: ID!): Cliente
-    obtenerPedidosEstado(estado: String!): [Pedido]
-
+    
     # Pedidos
     obtenerPedidos: [Pedido]
     obtenerPedidosVendedor: [Pedido]
     obtenerPedido(id: ID!): Pedido
+    obtenerPedidosEstado(estado: String!): [Pedido]
+
+    # Busquedas Avanzadas
+    mejoresClientes: [TopCliente]
   }
 
   type Mutation {
