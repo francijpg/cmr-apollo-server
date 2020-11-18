@@ -116,7 +116,7 @@ const typeDefs = gql`
     obtenerClientes: [Cliente]
     obtenerClientesVendedor: [Cliente]
     obtenerCliente(id: ID!): Cliente
-    
+
     # Pedidos
     obtenerPedidos: [Pedido]
     obtenerPedidosVendedor: [Pedido]
@@ -125,6 +125,7 @@ const typeDefs = gql`
 
     # Busquedas Avanzadas
     mejoresClientes: [TopCliente]
+    mejoresVendedores: [TopVendedor]
   }
 
   type Mutation {

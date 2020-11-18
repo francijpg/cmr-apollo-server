@@ -118,13 +118,15 @@ const resolvers = {
       const clientes = await Pedido.aggregate([
         { $match: { estado: "COMPLETADO" } },
         {
-          $group: { // similar to group by in SQL
+          $group: {
+            // similar to group by in SQL
             _id: "$cliente",
             total: { $sum: "$total" },
           },
         },
         {
-          $lookup: { // similar to join in SQL
+          $lookup: {
+            // similar to join in SQL
             from: "clientes",
             localField: "_id",
             foreignField: "_id",
@@ -140,6 +142,33 @@ const resolvers = {
       ]);
 
       return clientes;
+    },
+    mejoresVendedores: async () => {
+      const vendedores = await Pedido.aggregate([
+        { $match: { estado: "COMPLETADO" } },
+        {
+          $group: {
+            _id: "$vendedor",
+            total: { $sum: "$total" },
+          },
+        },
+        {
+          $lookup: {
+            from: "usuarios",
+            localField: "_id",
+            foreignField: "_id",
+            as: "vendedor",
+          },
+        },
+        {
+          $limit: 3,
+        },
+        {
+          $sort: { total: -1 },
+        },
+      ]);
+
+      return vendedores;
     },
   },
   Mutation: {
