@@ -1,7 +1,7 @@
 {
-  "name": "cmr-graphql",
+  "name": "cmr-apollo-server",
   "version": "1.0.0",
-  "description": "cmr-graphql",
+  "description": "cmr-g",
   "main": "index.js",
   "scripts": {
     "start": "node .",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/francijpg/CMRGraphQL.git"
+    "url": "git+https://github.com/francijpg/cmr-apollo-server.git"
   },
   "author": "FranciscoPG",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/francijpg/CMRGraphQL/issues"
+    "url": "https://github.com/francijpg/cmr-apollo-server/issues"
   },
-  "homepage": "https://github.com/francijpg/CMRGraphQL#readme",
+  "homepage": "https://github.com/francijpg/cmr-apollo-server#readme",
   "dependencies": {
     "apollo-server": "^2.19.0",
     "bcryptjs": "^2.4.3",
