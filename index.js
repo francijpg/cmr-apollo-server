@@ -17,15 +17,14 @@ const server = new ApolloServer({
     if (token) {
       try {
         const usuario = jwt.verify(
-          token, // token.replace("Bearer ", ""),
+          token.replace("Bearer ", ""),
           process.env.SECRET
         );
         return {
           usuario,
         };
       } catch (error) {
-        console.log("Hubo un error");
-        console.log(error);
+        console.log("There was an error =>" + error);
       }
     }
   },
@@ -33,5 +32,5 @@ const server = new ApolloServer({
 
 // arrancar el servidor
 server.listen().then(({ url }) => {
-  console.log(`Servidor listo en la URL ${url}`);
+  console.log(`Server ready at the following URL ${url}`);
 });
