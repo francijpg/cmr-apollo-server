@@ -9,9 +9,9 @@ const conectarDB = async () => {
       useFindAndModify: false,
       useCreateIndex: true,
     });
-    console.log("DB Conectada");
+    console.log("DB Connected");
   } catch (error) {
-    console.log("Hubo un error");
+    console.log("MONGO => There was an error");
     console.log(error);
     process.exit(1); // detener la app
   }
