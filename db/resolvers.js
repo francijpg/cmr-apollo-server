@@ -15,10 +15,8 @@ const crearToken = (usuario, secret, expiresIn) => {
 
 const resolvers = {
   Query: {
-    obtenerUsuario: async (_, { token }) => {
-      const usuarioId = await jwt.verify(token, process.env.SECRET);
-
-      return usuarioId;
+    obtenerUsuario: async (_, {}, ctx) => {
+      return ctx.usuario;
     },
     obtenerProductos: async () => {
       try {
@@ -170,6 +168,13 @@ const resolvers = {
 
       return vendedores;
     },
+    buscarProducto: async (_, { texto }) => {
+      const productos = await Producto.find({
+        $text: { $search: texto },
+      }).limit(10);
+
+      return productos;
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }) => {
@@ -178,7 +183,7 @@ const resolvers = {
       // Revisar si el usuario ya esta registrado
       const existeUsuario = await Usuario.findOne({ email });
       if (existeUsuario) {
-        throw new Error("El usuario ya esta registrado");
+        throw new Error("This user is already registered on the platform");
       }
 
       // Hashear su password
@@ -200,7 +205,7 @@ const resolvers = {
       // Si el usuario existe
       const existeUsuario = await Usuario.findOne({ email });
       if (!existeUsuario) {
-        throw new Error("El usuario no existe");
+        throw new Error("Username does not exist");
       }
 
       // Revisar si el password es correcto
@@ -209,7 +214,7 @@ const resolvers = {
         existeUsuario.password
       );
       if (!passwordCorrecto) {
-        throw new Error("El Password es Incorrecto");
+        throw new Error("The Password is incorrect");
       }
 
       // Crear el token
@@ -265,7 +270,7 @@ const resolvers = {
 
       const cliente = await Cliente.findOne({ email });
       if (cliente) {
-        throw new Error("Ese cliente ya esta registrado");
+        throw new Error("This client email is already registered");
       }
 
       const nuevoCliente = new Cliente(input);
