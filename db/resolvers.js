@@ -64,7 +64,7 @@ const resolvers = {
 
       // Quien lo creo puede verlo
       if (cliente.vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
+        throw new Error("You don't have the credentials");
       }
 
       return cliente;
@@ -101,7 +101,7 @@ const resolvers = {
 
       // Solo quien lo creo puede verlo
       if (pedido.vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
+        throw new Error("You don't have the credentials");
       }
 
       // retornar el resultado
@@ -239,7 +239,7 @@ const resolvers = {
       let producto = await Producto.findById(id);
 
       if (!producto) {
-        throw new Error("Producto no encontrado");
+        throw new Error("Product not found");
       }
 
       // guardarlo en la base de datos
@@ -254,13 +254,13 @@ const resolvers = {
       let producto = await Producto.findById(id);
 
       if (!producto) {
-        throw new Error("Producto no encontrado");
+        throw new Error("Product not found");
       }
 
       // Eliminar
       await Producto.findOneAndDelete({ _id: id });
 
-      return "Producto Eliminado";
+      return "Product deleted";
     },
     nuevoCliente: async (_, { input }, ctx) => {
       // console.log(ctx);
@@ -290,12 +290,12 @@ const resolvers = {
       let cliente = await Cliente.findById(id);
 
       if (!cliente) {
-        throw new Error("Ese cliente no existe");
+        throw new Error("This client doesn't exist");
       }
 
       // Verificar si el vendedor es quien edita
       if (cliente.vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
+        throw new Error("You don't have the credentials");
       }
 
       // guardar el cliente
@@ -309,17 +309,17 @@ const resolvers = {
       let cliente = await Cliente.findById(id);
 
       if (!cliente) {
-        throw new Error("Ese cliente no existe");
+        throw new Error("This client doesn't exist");
       }
 
       // Verificar si el vendedor es quien edita
       if (cliente.vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
+        throw new Error("You don't have the credentials");
       }
 
       // Eliminar Cliente
       await Cliente.findOneAndDelete({ _id: id });
-      return "Cliente Eliminado";
+      return "Client Deleted";
     },
     nuevoPedido: async (_, { input }, ctx) => {
       const { cliente } = input;
@@ -328,12 +328,12 @@ const resolvers = {
       let clienteExiste = await Cliente.findById(cliente);
 
       if (!clienteExiste) {
-        throw new Error("Ese cliente no existe");
+        throw new Error("This client doesn't exist");
       }
 
       // Verificar si el cliente es del vendedor
       if (clienteExiste.vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
+        throw new Error("You don't have the credentials");
       }
 
       // Revisar que el stock este disponible
@@ -381,7 +381,7 @@ const resolvers = {
 
       // Si el cliente y pedido pertenece al vendedor
       if (existeCliente.vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
+        throw new Error("You don't have the credentials");
       }
 
       // Revisar el stock
@@ -419,7 +419,7 @@ const resolvers = {
 
       // verificar si el vendedor es quien lo borra
       if (pedido.vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
+        throw new Error("You don't have the credentials");
       }
 
       // eliminar de la base de datos
