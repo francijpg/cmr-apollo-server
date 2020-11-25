@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ProductoSchema = mongoose.Schema({
+const PedidosSchema = mongoose.Schema({
     pedido: {
         type: Array,
         required: true
@@ -29,4 +29,4 @@ const ProductoSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Pedido', ProductoSchema);
+module.exports = mongoose.model('Pedido', PedidosSchema);
