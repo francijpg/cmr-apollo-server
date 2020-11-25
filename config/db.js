@@ -11,7 +11,7 @@ const conectarDB = async () => {
     });
     console.log("DB Connected");
   } catch (error) {
-    console.log("MONGO => There was an error");
+    console.log("MONGO_DB => There was an error");
     console.log(error);
     process.exit(1); // detener la app
   }

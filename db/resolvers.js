@@ -31,7 +31,7 @@ const resolvers = {
       // revisar si el producto existe o no
       const producto = await Producto.findById(id);
       if (!producto) {
-        throw new Error("Producto no encontrado");
+        throw new Error("Product not found");
       }
 
       return producto;
@@ -59,7 +59,7 @@ const resolvers = {
       const cliente = await Cliente.findById(id);
 
       if (!cliente) {
-        throw new Error("Cliente no encontrado");
+        throw new Error("Client not found");
       }
 
       // Quien lo creo puede verlo
@@ -81,12 +81,9 @@ const resolvers = {
       try {
         const pedidos = await Pedido.find({
           vendedor: ctx.usuario.id,
-        });
+        }).populate("cliente");
 
-        // const pedidos = await Pedido.find({
-        //   vendedor: ctx.usuario.id,
-        // }).populate("cliente");
-
+        // console.log(pedidos)
         return pedidos;
       } catch (error) {
         console.log(error);
@@ -96,7 +93,7 @@ const resolvers = {
       // Si el pedido existe o no
       const pedido = await Pedido.findById(id);
       if (!pedido) {
-        throw new Error("Pedido no encontrado");
+        throw new Error("Order not found");
       }
 
       // Solo quien lo creo puede verlo
@@ -205,7 +202,7 @@ const resolvers = {
       // Si el usuario existe
       const existeUsuario = await Usuario.findOne({ email });
       if (!existeUsuario) {
-        throw new Error("Username does not exist");
+        throw new Error("Username doesn't exist");
       }
 
       // Revisar si el password es correcto
@@ -265,6 +262,11 @@ const resolvers = {
     nuevoCliente: async (_, { input }, ctx) => {
       // console.log(ctx);
 
+      // Verificar que el Usuario este Logueado
+      if (!ctx.usuario) {
+        throw new Error("You dont have Authorization");
+      }
+
       const { email } = input;
       // Verificar si el cliente ya esta registrado
 
@@ -282,7 +284,8 @@ const resolvers = {
         const resultado = await nuevoCliente.save();
         return resultado;
       } catch (error) {
-        console.log(error);
+        throw new Error('Oops... Something went wrong');
+        // console.log(error);
       }
     },
     actualizarCliente: async (_, { id, input }, ctx) => {
@@ -344,10 +347,10 @@ const resolvers = {
 
         if (articulo.cantidad > producto.existencia) {
           throw new Error(
-            `El articulo: ${producto.nombre} excede la cantidad disponible`
+            `The item: ${producto.nombre} exceeds the available quantity`
           );
         } else {
-          // Restar la cantidad a lo disponible
+          // Restar la cantidad a los productos disponibles
           producto.existencia = producto.existencia - articulo.cantidad;
 
           await producto.save();
@@ -360,6 +363,7 @@ const resolvers = {
       // asignarle un vendedor
       nuevoPedido.vendedor = ctx.usuario.id;
 
+      // console.log(nuevoPedido)
       // Guardarlo en la base de datos
       const resultado = await nuevoPedido.save();
       return resultado;
@@ -370,13 +374,13 @@ const resolvers = {
       // Si el pedido existe
       const existePedido = await Pedido.findById(id);
       if (!existePedido) {
-        throw new Error("El pedido no existe");
+        throw new Error("The Order doesn't exist");
       }
 
       // Si el cliente existe
       const existeCliente = await Cliente.findById(cliente);
       if (!existeCliente) {
-        throw new Error("El Cliente no existe");
+        throw new Error("The Client doesn't exist");
       }
 
       // Si el cliente y pedido pertenece al vendedor
@@ -393,7 +397,7 @@ const resolvers = {
 
           if (articulo.cantidad > producto.existencia) {
             throw new Error(
-              `El articulo: ${producto.nombre} excede la cantidad disponible`
+              `The item: ${producto.nombre} exceeds the available quantity`
             );
           } else {
             // Restar la cantidad a lo disponible
@@ -414,7 +418,7 @@ const resolvers = {
       // Verificar si el pedido existe o no
       const pedido = await Pedido.findById(id);
       if (!pedido) {
-        throw new Error("El pedido no existe");
+        throw new Error("The Order doesn't exist");
       }
 
       // verificar si el vendedor es quien lo borra
@@ -424,7 +428,7 @@ const resolvers = {
 
       // eliminar de la base de datos
       await Pedido.findOneAndDelete({ _id: id });
-      return "Pedido Eliminado";
+      return "Order Deleted";
     },
   },
 };
